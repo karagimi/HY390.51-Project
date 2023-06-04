@@ -1,46 +1,39 @@
 #data import stage, import the needed data before using any function
 
 #run these to import the data
-observed_data = scan("http://139.91.162.101/teaching/hy390_2021/ms_obs_final.out", what="character", sep=NULL)
-simulated_data = scan("http://139.91.162.101/teaching/hy390_2021/ms_sim_final.out", what="character", sep=" ")
-data_parameters = scan("http://139.91.162.101/teaching/hy390_2021/pars_final.txt", what="character", sep=" ")
+observed_data = scan("http://139.91.162.101/teaching/hy390_2021/ms_obs_final.out", what="numeric", sep=NULL)
+simulated_data = scan("http://139.91.162.101/teaching/hy390_2021/ms_sim_final.out", what="numeric", sep=" ")
+data_parameters = scan("http://139.91.162.101/teaching/hy390_2021/pars_final.txt", what="numeric", sep=" ")
 
 #run these to print any data needed
 observed_data
 simulated_data
 data_parameters
 
+#spliting data
+observed_data_splitted = strsplit(observed_data[1:50],"")
+simulated_data_splitted = strsplit(simulated_data[1:500000],"")
 
-#Function gia kanoniki katanomi
+#run these to print any data needed
+observed_data_splitted
+simulated_data_splitted
 
-#test data
-observation = rnorm(10,182,10)
+#Αρχικοποιηση vector για να μπορει να γινει χρηση του append
+diff_count = vector("numeric",length = 50)
 
-pars = vector("numeric", length=10000)
-statistics = vector("numeric",length = 10000)
-
-for(i in 1:10000){
-  m = runif(1,100,200)
-  s = rnorm(10,m,10)
-  statistics[i]=mean(s)
+i=1
+while (i != 50) {
   
+  for (j in (i+1):50) {
+    temp <- sum(observed_data_splitted[[i]] != observed_data_splitted[[j]])
+    diff_count <- append(diff_count,temp)  
+}
+i = i+1
+
 }
 
-#mesos oros paratirisis
-mobs = mean(observation)
+#Υπολογισμος k
 
-#vector me timi opote tha to kanei kiklika gia ola
-statistics - mobs
+sum(diff_count/50)
 
-#diafores
-d = abs(statistics - mobs)
 
-#thelo na valo se seira ta indexes
-#FALSE giati theloume apo to mikrotero sto megalitero
-
-myorder = order(d,decreasing = FALSE)
-#averages ton prton 500 stoixeion
-mean(pars[myorder[1:500]])
-
-#gia na paroume tin grafiki parastasi tis katanomis xrisimopoioume
-plot(density(pars[myorder[1:500]]))
