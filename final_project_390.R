@@ -19,7 +19,7 @@ observed_data_splitted
 simulated_data_splitted
 
 
-# den doulevei meta to 3251 DEN DOULEVEI
+# Function Υπολογισμου k
 calculate_k <- function(input_vector){
   diff_count = vector("numeric",length = 50)
   
@@ -42,18 +42,31 @@ calculate_k <- function(input_vector){
 }
 calculate_k(observed_data_splitted)
 
+#Κληση Υπολογισμου κ για τα simulated data
+
 begin=1
 final=50
-test_output = vector("numeric",length = 100)
-for (i in 1:100) {
+sim_data_k_output = vector("numeric",length = 10000)
+sim_data_w_output = vector("numeric",length = 10000)
+sim_data_D_output = vector("numeric",length = 10000)
+
+for (i in 1:10000) {
   
-  test_output <- append(test_output,calculate_k(simulated_data_splitted[begin:final]))
+  sim_data_k_output <- append(sim_data_k_output,calculate_k(simulated_data_splitted[begin:final]))
+  sim_data_w_output <- append(sim_data_w_output,calculate_w(length(simulated_data_splitted[[begin]])))
+  sim_data_D_output <- append(sim_data_D_output,calculate_D(sim_data_k_output[i],sim_data_w_output[i],length(simulated_data_splitted[[begin]])))
+  
+  
+  
+  
   begin=final+1
   final= final + 50
 }
 
-plot(density(test_output[1:1000]))
-test_output
+plot(density(sim_data_k_output[1:10000]))
+sim_data_D_output
+
+sim_data_k_output
 
 
 
@@ -99,5 +112,3 @@ calculate_D <- function(k,w,s){
   D
 }
 
-calculate_w(132)
-calculate_D(349.92,29.46951,132)
