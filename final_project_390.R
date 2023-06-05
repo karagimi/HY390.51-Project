@@ -42,38 +42,6 @@ calculate_k <- function(input_vector){
 }
 calculate_k(observed_data_splitted)
 
-#Κληση Υπολογισμου κ για τα simulated data
-
-begin=1
-final=50
-sim_data_k_output = vector("numeric",length = 10000)
-sim_data_w_output = vector("numeric",length = 10000)
-sim_data_D_output = vector("numeric",length = 10000)
-
-for (i in 1:10000) {
-  
-  sim_data_k_output <- append(sim_data_k_output,calculate_k(simulated_data_splitted[begin:final]))
-  sim_data_w_output <- append(sim_data_w_output,calculate_w(length(simulated_data_splitted[[begin]])))
-  sim_data_D_output <- append(sim_data_D_output,calculate_D(sim_data_k_output[i],sim_data_w_output[i],length(simulated_data_splitted[[begin]])))
-  
-  
-  
-  
-  begin=final+1
-  final= final + 50
-}
-
-plot(density(sim_data_k_output[1:10000]))
-sim_data_D_output
-
-sim_data_k_output
-
-
-
-
-
-
-
 #function υπολογισμου w
 calculate_w <- function(s){
   a1 = sum(1/(1:49))
@@ -81,7 +49,6 @@ calculate_w <- function(s){
   w = s/a1
   w
 }
-
 
 #Function υπολογισμου D
 calculate_D <- function(k,w,s){
@@ -111,4 +78,50 @@ calculate_D <- function(k,w,s){
   D = (k-w) / sqrt((e1*s) + (e2*s*(s-1)))
   D
 }
+
+#Κληση Υπολογισμου κ για τα observed data
+
+k <- calculate_k(observed_data_splitted)
+w <- calculate_w(length(observed_data_splitted[[1]]))
+D <- calculate_D(k,w,length(observed_data_splitted[[1]]))
+
+#Κληση Υπολογισμου κ για τα simulated data
+
+begin=1
+final=50
+sim_data_k_output = vector("numeric")
+sim_data_w_output = vector("numeric")
+sim_data_D_output = vector("numeric")
+
+for (i in 1:10000) {
+  
+  sim_data_k_output <- append(sim_data_k_output,calculate_k(simulated_data_splitted[begin:final]))
+  sim_data_w_output <- append(sim_data_w_output,calculate_w(length(simulated_data_splitted[[begin]])))
+  sim_data_D_output <- append(sim_data_D_output,calculate_D(sim_data_k_output[i],sim_data_w_output[i],length(simulated_data_splitted[[begin]])))
+  
+  
+  
+  
+  begin=final+1
+  final= final + 50
+}
+
+#Δημιοργια plot απο τα output των συναρτησεων για τα simulated data
+
+plot(density(sim_data_k_output[1:10000]))
+plot(density(sim_data_w_output[1:10000]))
+plot(density(sim_data_D_output[1:10000]))
+
+# Use these to print the data needed from the function outputs
+sim_data_k_output
+sim_data_w_output
+sim_data_D_output
+
+
+
+
+
+
+
+
 
