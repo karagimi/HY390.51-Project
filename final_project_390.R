@@ -99,9 +99,6 @@ for (i in 1:10000) {
   sim_data_w_output <- append(sim_data_w_output,calculate_w(length(simulated_data_splitted[[begin]])))
   sim_data_D_output <- append(sim_data_D_output,calculate_D(sim_data_k_output[i],sim_data_w_output[i],length(simulated_data_splitted[[begin]])))
   
-  
-  
-  
   begin=final+1
   final= final + 50
 }
@@ -118,8 +115,26 @@ sim_data_w_output
 sim_data_D_output
 
 
+#Κανονικοποίηση
+mean_w = mean(sim_data_w_output)
+var_w = var(sim_data_w_output)
+normalized_w = (sim_data_w_output - mean_w)/var_w
+
+normalized_w0 = (w - mean_w)/var_w
 
 
+mean_k = mean(sim_data_k_output)
+var_k = var(sim_data_k_output)
+normalized_k = (sim_data_k_output - mean_k)/var_k
+
+normalized_k0 = (k - mean_k)/var_k
+
+
+mean_D = mean(sim_data_D_output)
+var_D = var(sim_data_D_output)
+normalized_D = (sim_data_D_output - mean_D)/var_D
+
+normalized_D0 = (D - mean_D)/var_D
 
 
 
