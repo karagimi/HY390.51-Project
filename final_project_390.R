@@ -122,13 +122,11 @@ normalized_w = (sim_data_w_output - mean_w)/var_w
 
 normalized_w0 = (w - mean_w)/var_w
 
-
 mean_k = mean(sim_data_k_output)
 var_k = var(sim_data_k_output)
 normalized_k = (sim_data_k_output - mean_k)/var_k
 
 normalized_k0 = (k - mean_k)/var_k
-
 
 mean_D = mean(sim_data_D_output)
 var_D = var(sim_data_D_output)
@@ -136,7 +134,11 @@ normalized_D = (sim_data_D_output - mean_D)/var_D
 
 normalized_D0 = (D - mean_D)/var_D
 
+#Υπολογισμός ευκλείδιων αποστάσεων
+d = sqrt((normalized_D0 - normalized_D)**2 + (normalized_w0 - normalized_w)**2 + (normalized_k0 - normalized_k)**2)
+d
 
-
+#Εύρεση των 500 μικρότερων αποστάσεων και κρατάμε τα indexes τους σε ένα νέο vector
+smallest_distances_indexes = order(d)[1:500]
 
 
