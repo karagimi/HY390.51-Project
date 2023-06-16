@@ -1,14 +1,15 @@
 #data import stage, import the needed data before using any function
 
 #run these to import the data from the web server directly
-observed_data = scan("http://139.91.162.101/teaching/hy390_2021/ms_obs_final.out", what="numeric", sep=NULL)
-simulated_data = scan("http://139.91.162.101/teaching/hy390_2021/ms_sim_final.out", what="numeric", sep=" ")
-data_parameters = scan("http://139.91.162.101/teaching/hy390_2021/pars_final.txt", what="numeric", sep=" ")
+#observed_data = scan("http://139.91.162.101/teaching/hy390_2021/ms_obs_final.out", what="numeric", sep=NULL)
+#simulated_data = scan("http://139.91.162.101/teaching/hy390_2021/ms_sim_final.out", what="numeric", sep=" ")
+#data_parameters = scan("http://139.91.162.101/teaching/hy390_2021/pars_final.txt", what="numeric", sep=" ")
 
+#if the above server doesnt work use this
 #run these to import the data from github server
-observed_data2 = scan("https://raw.githubusercontent.com/karagimi/HY390.51-Project/main/given%20files/ms_obs_final.out?token=GHSAT0AAAAAACD74NS23V2BDZIBBJSOAUSUZEMGQXQ", what="numeric", sep=NULL)
-simulated_data2 = scan("https://raw.githubusercontent.com/karagimi/HY390.51-Project/main/given%20files/ms_sim_final.out?token=GHSAT0AAAAAACD74NS2NJJJCORLYE2EETP6ZEMGP3Q", what="numeric", sep=" ")
-data_parameters2 = scan("https://raw.githubusercontent.com/karagimi/HY390.51-Project/main/given%20files/pars_final.txt?token=GHSAT0AAAAAACD74NS355TTWJM7CDCS6RY2ZEMGPBA", what="numeric", sep=" ")
+observed_data = scan("https://raw.githubusercontent.com/mindthegeekgr/Project390_files/main/ms_obs_final.out", what="numeric", sep=NULL)
+simulated_data = scan("https://raw.githubusercontent.com/mindthegeekgr/Project390_files/main/ms_sim_final.out", what="numeric", sep=" ")
+data_parameters = scan("https://raw.githubusercontent.com/mindthegeekgr/Project390_files/main/pars_final.txt", what="numeric", sep=" ")
 
 
 #run these to print any data needed
@@ -23,7 +24,6 @@ simulated_data_splitted = strsplit(simulated_data[1:500000],"")
 #run these to print any data needed
 observed_data_splitted
 simulated_data_splitted
-
 
 # Function Υπολογισμου k
 calculate_k <- function(input_vector){
@@ -115,6 +115,7 @@ plot(density(sim_data_k_output[1:10000]))
 plot(density(sim_data_w_output[1:10000]))
 plot(density(sim_data_D_output[1:10000]))
 
+
 # Use these to print the data needed from the function outputs
 sim_data_k_output
 sim_data_w_output
@@ -122,29 +123,59 @@ sim_data_D_output
 
 
 #Κανονικοποίηση
+
+#Για το w
 mean_w = mean(sim_data_w_output)
 var_w = var(sim_data_w_output)
 normalized_w = (sim_data_w_output - mean_w)/var_w
 
+#Για το w0
 normalized_w0 = (w - mean_w)/var_w
 
+#Για το k
 mean_k = mean(sim_data_k_output)
 var_k = var(sim_data_k_output)
 normalized_k = (sim_data_k_output - mean_k)/var_k
 
+#Για το κ0
 normalized_k0 = (k - mean_k)/var_k
 
+#Για το D
 mean_D = mean(sim_data_D_output)
 var_D = var(sim_data_D_output)
 normalized_D = (sim_data_D_output - mean_D)/var_D
 
+#Για το D0
 normalized_D0 = (D - mean_D)/var_D
 
 #Υπολογισμός ευκλείδιων αποστάσεων
-d = sqrt((normalized_D0 - normalized_D)**2 + (normalized_w0 - normalized_w)**2 + (normalized_k0 - normalized_k)**2)
-d
+
+calc_euclidian_d <- function(){
+  d = sqrt((normalized_D0 - normalized_D)**2 + (normalized_w0 - normalized_w)**2 + (normalized_k0 - normalized_k)**2)
+}
+#Κληση της συναρτηση και αποθηκευση τον αποτελεσματων σε array
+euclidian_d = calc_euclidian_d()
+
+temp_array <-matrix(nrow=10000,ncol = 2)
+temp_array[1]<-euclidian_d
+
 
 #Εύρεση των 500 μικρότερων αποστάσεων και κρατάμε τα indexes τους σε ένα νέο vector
-smallest_distances_indexes = order(d)[1:500]
+smallest_distances_indexes = order(euclidian_d,decreasing = FALSE)[1:500]
 
+smallest_distances_indexes
+
+# Ευρεση τον αντιστοιχων τιμων με βαση τα indexes απο το data_parameters
+data_corrensponding_values = as.double(data_parameters[smallest_distances_indexes[1:500]])
+
+data_corrensponding_values
+
+#Ευρεση του μεσου ορου των data_corrensponding_values
+mean_cor_values = mean(data_corrensponding_values)
+mean_cor_values
+
+#Κατασκευη ιστογραμματος για τα data_corrensponding_values
+hist(data_corrensponding_values)
+#Κατασκευη διαγραμματος πυκνοτητας για τα data_corrensponding_values
+plot(density(data_corrensponding_values))
 
