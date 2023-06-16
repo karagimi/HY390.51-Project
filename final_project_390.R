@@ -1,9 +1,15 @@
 #data import stage, import the needed data before using any function
 
-#run these to import the data
+#run these to import the data from the web server directly
 observed_data = scan("http://139.91.162.101/teaching/hy390_2021/ms_obs_final.out", what="numeric", sep=NULL)
 simulated_data = scan("http://139.91.162.101/teaching/hy390_2021/ms_sim_final.out", what="numeric", sep=" ")
 data_parameters = scan("http://139.91.162.101/teaching/hy390_2021/pars_final.txt", what="numeric", sep=" ")
+
+#run these to import the data from github server
+observed_data2 = scan("https://raw.githubusercontent.com/karagimi/HY390.51-Project/main/given%20files/ms_obs_final.out?token=GHSAT0AAAAAACD74NS23V2BDZIBBJSOAUSUZEMGQXQ", what="numeric", sep=NULL)
+simulated_data2 = scan("https://raw.githubusercontent.com/karagimi/HY390.51-Project/main/given%20files/ms_sim_final.out?token=GHSAT0AAAAAACD74NS2NJJJCORLYE2EETP6ZEMGP3Q", what="numeric", sep=" ")
+data_parameters2 = scan("https://raw.githubusercontent.com/karagimi/HY390.51-Project/main/given%20files/pars_final.txt?token=GHSAT0AAAAAACD74NS355TTWJM7CDCS6RY2ZEMGPBA", what="numeric", sep=" ")
+
 
 #run these to print any data needed
 observed_data
