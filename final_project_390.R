@@ -46,7 +46,7 @@ calculate_k <- function(input_vector){
   k
   
 }
-calculate_k(observed_data_splitted)
+
 
 #function υπολογισμου w
 calculate_w <- function(s){
@@ -176,6 +176,9 @@ mean_cor_values
 
 #Κατασκευη ιστογραμματος για τα data_corrensponding_values
 hist(data_corrensponding_values)
+#κατασκευη 2ου ιστογραμματος για ευκολοτερη διακριση των διαστημματων με σκοπο την αναφορα
+hist(data_corrensponding_values,breaks = 4,xlim = c(1,365))
+
 #Κατασκευη διαγραμματος πυκνοτητας για τα data_corrensponding_values
 plot(density(data_corrensponding_values))
 
