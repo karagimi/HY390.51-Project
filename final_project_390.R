@@ -98,7 +98,6 @@ sim_data_k_output = vector("numeric")
 sim_data_w_output = vector("numeric")
 sim_data_D_output = vector("numeric")
 
-simulated_data[1]
 
 for (i in 1:10000) {
   
@@ -115,6 +114,7 @@ for (i in 1:10000) {
 plot(density(sim_data_k_output[1:10000]))
 plot(density(sim_data_w_output[1:10000]))
 plot(density(sim_data_D_output[1:10000]))
+
 
 
 # Use these to print the data needed from the function outputs
