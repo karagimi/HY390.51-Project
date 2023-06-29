@@ -174,6 +174,9 @@ data_corrensponding_values
 #Ευρεση του μεσου ορου των data_corrensponding_values
 mean_cor_values = mean(data_corrensponding_values)
 mean_cor_values
+#Ευρεση του median των data_corrensponding_values
+median_cor_values = median(data_corrensponding_values)
+median_cor_values
 
 #Κατασκευη ιστογραμματος για τα data_corrensponding_values
 hist(data_corrensponding_values)
